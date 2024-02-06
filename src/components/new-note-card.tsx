@@ -1,7 +1,20 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
+import { ChangeEvent, useState } from "react";
 
 export function NewNoteCard() {
+  const [shouldShowOnBoard, setShouldShowOnBoard] = useState(true);
+
+  function handleStartEditor() {
+    setShouldShowOnBoard(false);
+  }
+
+  function handleContentChange(event: ChangeEvent<HTMLTextAreaElement>) {
+    if(event.target.value === '') {
+      setShouldShowOnBoard(true);
+    }
+  }
+
   return (
     <Dialog.Root>
       <Dialog.Trigger className="rounded-md outline-none flex flex-col bg-slate-700 p-5 gap-3 text-left hover:ring-2 hover:ring-slate-600 focus-visible:ring-2 focus-visible:ring-lime-400">
@@ -25,10 +38,27 @@ export function NewNoteCard() {
             <span className="text-sm font-medium text-slate-300">
               Adicionar nota
             </span>
-            <p className="text-sm leading-6 text-slate-400 ">
-              Comece <button className="font-medium text-lime-400 hover:underline">gravando uma nota</button> em áudio ou se preferir{" "}
-              <button className="font-medium text-lime-400 hover:underline">utilize apenas texto.</button>
-            </p>
+            {shouldShowOnBoard ? (
+              <p className="text-sm leading-6 text-slate-400 ">
+                Comece{" "}
+                <button className="font-medium text-lime-400 hover:underline">
+                  gravando uma nota
+                </button>{" "}
+                em áudio ou se preferir{" "}
+                <button
+                  className="font-medium text-lime-400 hover:underline"
+                  onClick={handleStartEditor}
+                >
+                  utilize apenas texto.
+                </button>
+              </p>
+            ) : (
+              <textarea
+                autoFocus
+                className="text-sm leading-6 text-slate-400 bg-transparent resize-none flex1 outline-none"
+                onChange={handleContentChange}
+              />
+            )}
           </div>
 
           <button
