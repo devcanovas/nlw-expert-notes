@@ -39,9 +39,11 @@ export function App() {
       <div className="grid grid-cols-3 gap-6 auto-rows-[250px]">
         <NewNoteCard onNoteCreated={onNoteCreated} />
 
-        {notes.map(note => {
-          return <NoteCard key={note.id} note={note} />
-        })}
+        {
+          notes.map(note => {
+            return <NoteCard key={note.id} note={note} />
+          })
+        }
       </div>
     </div>
   );
